@@ -38,8 +38,7 @@ I have produced my own images (three images each of Americal Sign Language gestu
 
 ### Cleaning Data
 I made sure that
-all the images are of the same size (224 x 224 pixels RGB), and have the hand in the center of the cropped
-regions.
+all the images are of the same size (224 x 224 pixels RGB), and have the hand in the center of the cropped regions.
 
 Building a CNN
 
@@ -48,7 +47,8 @@ for loops, or unnecessary calls to unsqueeze()).
 
 ## Part 1. Data Loading and Splitting
 
-Split the data into training, validation, and test sets. Data splitting is not as trivial in this project. We want our test set to closely resemble the setting in which our model will be used. In particular, our test set should contain hands that are never seen in training!
+Split the data into training, validation, and test sets. Data splitting is not as trivial in this project. We want our test set to closely resemble the setting in which our model will be used. 
+In particular, our test set should contain hands that are never seen in training!
 """
 
 # load "Lab_3b_Gesture_Dataset" to Google Colab
@@ -103,7 +103,10 @@ Training set: 70%
 Validation set: 15%
 Test set: 15%
 
-To ensure the accuracy of the model, we must ensure that the test set does not have any hands that were seen before in the training set, or the validation set. In other words, each unique person's hands should only appear in one of the sets (i.e. training, validation, or testing). This is because, when using this model in real life, we should be able to feed never before seen hands and still get an accurate prediction. By ensuring all sets are mutually exclusive, we are ensuring that in the training phase, the model does not have the opportunity to "memorize" a hand. Further, it ensures that the testing set will provide an accurate picture of how the model would work in real life.
+To ensure the accuracy of the model, we must ensure that the test set does not have any hands that were seen before in the training set, or the validation set. In other words, each unique person's 
+hands should only appear in one of the sets (i.e. training, validation, or testing). This is because, when using this model in real life, we should be able to feed never before seen hands and still 
+get an accurate prediction. By ensuring all sets are mutually exclusive, we are ensuring that in the training phase, the model does not have the opportunity to "memorize" a hand. Further, it ensures 
+that the testing set will provide an accurate picture of how the model would work in real life.
 
 ## Part 2. Model Building and Sanity Checking
 
@@ -262,10 +265,16 @@ val_data = [dataset[i] for i, (img, _) in enumerate(dataset.imgs) if img in val_
 train(model, train_data, val_data, num_epochs=10, learning_rate=0.001)
 
 """1. Loss Function: CrossEntropyLoss
-The problem is a multi-class classification, where each image should belong to one of the possible ASL gestures. CrossEntropyLoss is designed for this type of task. CrossEntropyLoss also combines a Softmax activation function and a negative log likelihood loss. It ensures that the probabilities predicted by the model for all classes sum to 1, and the loss is high when the prediction for the correct class is low. Finally it's more numerically stable than calculating softmax and then the log likelihood as two separate steps.
+The problem is a multi-class classification, where each image should belong to one of the possible ASL gestures. CrossEntropyLoss is designed for this type of task. 
+CrossEntropyLoss also combines a Softmax activation function and a negative log likelihood loss. It ensures that the probabilities predicted by the model for all classes 
+sum to 1, and the loss is high when the prediction for the correct class is low. Finally it's more numerically stable than calculating softmax and then the log likelihood 
+as two separate steps.
 
 2. Optimizer: Adam
-Adam adjusts the learning rate for each parameter during training, which can lead to faster convergence and reduced need for a finely-tuned global learning rate. It also incorporates the benefits of both AdaGrad and RMSProp algorithms, maintaining a moving average of past gradients. This can help overcome saddle points and local minima in the loss landscape. Adam has hyperparameters like beta1 and beta2 that are generally set to default values of 0.9 and 0.999 respectively, which work well in most cases, making it easier to use without extensive hyperparameter tuning.
+Adam adjusts the learning rate for each parameter during training, which can lead to faster convergence and reduced need for a finely-tuned global learning rate. It also 
+incorporates the benefits of both AdaGrad and RMSProp algorithms, maintaining a moving average of past gradients. This can help overcome saddle points and local minima in 
+the loss landscape. Adam has hyperparameters like beta1 and beta2 that are generally set to default values of 0.9 and 0.999 respectively, which work well in most cases, 
+making it easier to use without extensive hyperparameter tuning.
 
 ### Part (iii) “Overfit” to a Small Dataset
 One way to sanity check our neural network model and training code is to check whether the model is capable
@@ -301,13 +310,19 @@ use_cuda = torch.cuda.is_available()
 """## Part 3. Hyperparameter Search
 ### Part (i)
 
-In part ii), when the training code was initially run, we observed signs of overfitting i.e. high training accuracy vs lower validation accuracy (96% vs. 67% respectively). As such, we should focus on the hyperparameters that directly impact regularization. For this reason, I believe that the drop out rate and learning rate are important to tune. ALtering the number of filters in the convolution layers can also help with overfitting and is directly relate dto the mosel's architechture.
+In part ii), when the training code was initially run, we observed signs of overfitting i.e. high training accuracy vs lower validation accuracy (96% vs. 67% respectively). As such, 
+we should focus on the hyperparameters that directly impact regularization. For this reason, I believe that the drop out rate and learning rate are important to tune. ALtering the number 
+of filters in the convolution layers can also help with overfitting and is directly relate dto the mosel's architechture.
 
-> **Learning Rate:** The learning rate determines the step size at each iteration while moving toward a minimum of the loss function. If it's too large, the model might overshoot the optimal point. If it's too small, training might be very slow or get stuck in a local minimum. Since we observed good training accuracy but lower validation accuracy, we can try reducing the learning rate slightly. ALthough this might slow down the convergence, it might lead to a more generalized model.
+> **Learning Rate:** The learning rate determines the step size at each iteration while moving toward a minimum of the loss function. If it's too large, the model might overshoot the optimal 
+point. If it's too small, training might be very slow or get stuck in a local minimum. Since we observed good training accuracy but lower validation accuracy, we can try reducing the learning 
+rate slightly. ALthough this might slow down the convergence, it might lead to a more generalized model.
 
-> **Batch Size**: Since the is showing signs of overfitting, using a smaller batch size might introduce noise into the gradient, providing implicit regularization and could potentially reducing overfitting. We are currently using a batch size of 64, we will try to reduce it to 32.
+> **Batch Size**: Since the is showing signs of overfitting, using a smaller batch size might introduce noise into the gradient, providing implicit regularization and could potentially 
+reducing overfitting. We are currently using a batch size of 64, we will try to reduce it to 32.
 
->**Number of Convolutional Filters (in layers conv1 and conv2)**: Determines the capacity of the network to extract features from input images. Can increase and/or decrease these numbers to see if we can get a better balance between model capacity and overfitting.
+>**Number of Convolutional Filters (in layers conv1 and conv2)**: Determines the capacity of the network to extract features from input images. Can increase and/or decrease these numbers 
+to see if we can get a better balance between model capacity and overfitting.
 
 ### Part (ii)
 
@@ -416,13 +431,15 @@ train_four = train(model, train_data, val_data, batch_size=64, num_epochs=10, le
 
 """### Part (iii)
 
-The best model out of all the ones that were trained was model_two because it showed the greatest increase in the final validation accuracy and did not show a significant decrease in the final training accuracy.
+The best model out of all the ones that were trained was model_two because it showed the greatest increase in the final validation accuracy and did not show a significant 
+decrease in the final training accuracy.
 
 For model_two:
 >Final Training Accuracy: 0.9567279193835211
 >Final Validation Accuracy: 0.7706666666666667
 
-Although this model did show some evidence of overfitting, since the gap between the training accuracy and the validation accuracy was the smallest of all of the training sessions and the final validation accuracy was relatively high and continued to increase (although slope was smaller in later epochs), this was the best model.
+Although this model did show some evidence of overfitting, since the gap between the training accuracy and the validation accuracy was the smallest of all of the training 
+sessions and the final validation accuracy was relatively high and continued to increase (although slope was smaller in later epochs), this was the best model.
 
 ### Part (iv)
 """
@@ -528,7 +545,9 @@ class FeatureClassifier(nn.Module):
 # Instantiate the model
 model = FeatureClassifier().to(device)
 
-"""(self.fc1 and self.fc2): Since we're using the features extracted by AlexNet, the new network consists mainly of fully connected layers. The first fully connected layer (512 hidden units) is responsible for reducing dimensions of the input and extracting more dense and relevant features. Second fully connected layer reduces the dimension to the number of classes (i.e., 9) and gives the logits for each class.
+"""(self.fc1 and self.fc2): Since we're using the features extracted by AlexNet, the new network consists mainly of fully connected layers. The first fully connected layer 
+(512 hidden units) is responsible for reducing dimensions of the input and extracting more dense and relevant features. Second fully connected layer reduces the dimension 
+to the number of classes (i.e., 9) and gives the logits for each class.
 
 (self.relu): ReLU is used as an activation function to introduce non-linearity into the model. It replaces all negative values in the tensor with zeros.
 
@@ -632,15 +651,23 @@ test_loader = DataLoader(test_dataset, batch_size=64)
 test_accuracy = get_accuracy_features(model, test_loader, device)
 print(f"Test Accuracy (Transfer Learning): {test_accuracy * 100:.2f}%")
 
-"""AlexNet is a deep neural network model that was trained on the ImageNet dataset, which contains over a million images from 1000 different classes. By using the features learned by AlexNet, the model was able to capitalize on the knowledge AlexNet gained from seeing a wide variety of images, which generally leads to better feature representations for many visual tasks.IN comparison, the custom CNN from before starteD its learning process from scratch. Without any prior knowledge, it only learned from the data that was provided to it.
+"""AlexNet is a deep neural network model that was trained on the ImageNet dataset, which contains over a million images from 1000 different classes. By using the 
+features learned by AlexNet, the model was able to capitalize on the knowledge AlexNet gained from seeing a wide variety of images, which generally leads to better 
+feature representations for many visual tasks.IN comparison, the custom CNN from before starteD its learning process from scratch. Without any prior knowledge, it 
+only learned from the data that was provided to it.
 
-AlexNet also has a deeper architecture and more parameters than our custom CNN. SInce deeper networks tend to capture hierarchical and intricate patterns in data, they can be more advantageous for classification tasks.
+AlexNet also has a deeper architecture and more parameters than our custom CNN. SInce deeper networks tend to capture hierarchical and intricate patterns in data, 
+they can be more advantageous for classification tasks.
 
-By using AlexNet for feature extraction and training only the classifier layers on top of it, we decoupled feature extraction from classification. This can sometimes yield better results, especially if the pre-trained model's features are robust and generalizable.
+By using AlexNet for feature extraction and training only the classifier layers on top of it, we decoupled feature extraction from classification. This can sometimes 
+yield better results, especially if the pre-trained model's features are robust and generalizable.
 
-Transfer learning is especially powerful when we have a relatively small dataset. Since the gesture dataset was small, the custom CNN might not have had enough data to learn robust features from scratch. THis is why borrowing features from a model trained on a much larger dataset can be highly beneficial.
+Transfer learning is especially powerful when we have a relatively small dataset. Since the gesture dataset was small, the custom CNN might not have had enough data 
+to learn robust features from scratch. THis is why borrowing features from a model trained on a much larger dataset can be highly beneficial.
 
-AlexNet is a deeper network which comes with more parameters and can be more likely to overfit on a small datasets. However, by using only the features from AlexNet and training a separate, simpler classifier on top, we reduced the risk of overfitting. In contrast, the CNN from before might have overfit more easily since there may not have been enough regularizing techniques in place.
+AlexNet is a deeper network which comes with more parameters and can be more likely to overfit on a small datasets. However, by using only the features from AlexNet 
+and training a separate, simpler classifier on top, we reduced the risk of overfitting. In contrast, the CNN from before might have overfit more easily since there may 
+not have been enough regularizing techniques in place.
 
 ## Part 5. Testing on New Data
 
@@ -711,9 +738,11 @@ df
 
 >Test (with personal dataset):  100%
 
-Transfer learning allows a pre-trained model (typically trained on a much larger dataset) to be fine-tuned on a specific task. Given that it achieved 85.48% on the original dataset suggests that the model benefited from the generic features learned during pre-training, leading to decent performance when fine-tuned.
+Transfer learning allows a pre-trained model (typically trained on a much larger dataset) to be fine-tuned on a specific task. Given that it achieved 85.48% on the original
+dataset suggests that the model benefited from the generic features learned during pre-training, leading to decent performance when fine-tuned.
 
-A 100% accuracy might be suspicious. This might indicate overfitting, where the model has learned the personal dataset rather than generalizing. Overfitting is more likely when the dataset is small because there's not enough diversity in the data to prevent the model from simply memorizing it.
+A 100% accuracy might be suspicious. This might indicate overfitting, where the model has learned the personal dataset rather than generalizing. Overfitting is more likely
+when the dataset is small because there's not enough diversity in the data to prevent the model from simply memorizing it.
 
 Overall with the transfer learning the final training, validation and test accuracies were higher than without transfer learning.
 
@@ -726,11 +755,16 @@ Overall with the transfer learning the final training, validation and test accur
 
 > Test (w/ Personal Dataset) -85.18%
 
-This model achieved a 71.27% accuracy on the original dataset. The lower performance compared to the transfer-learned model suggests the power of transfer learning; pre-trained models can leverage a lot of previously learned information that models trained from scratch lack.
+This model achieved a 71.27% accuracy on the original dataset. The lower performance compared to the transfer-learned model suggests the power of transfer learning; pre-trained 
+models can leverage a lot of previously learned information that models trained from scratch lack.
 
-In the real-world, performance would likely vary. This is because real-world data can have much more variability than controlled datasets. Lighting conditions, hand positions, occlusions, skin colors, and backgrounds can all affect performance.
+In the real-world, performance would likely vary. This is because real-world data can have much more variability than controlled datasets. Lighting conditions, hand positions, 
+occlusions, skin colors, and backgrounds can all affect performance.
 
-TO improve the results, we can increase the diversity of the training data without collecting new data. Techniques might include random rotations, zooms, shifts, flips, and color perturbations. We can also use techniques like dropout or weight decay to reduce overfitting, especially for models showing suspiciously high accuracies. Combine predictions from multiple models to improve overall performance as well and reduce the likelihood of specific model biases.
+TO improve the results, we can increase the diversity of the training data without collecting new data. Techniques might include random rotations, zooms, shifts, flips, and color 
+perturbations. We can also use techniques like dropout or weight decay to reduce overfitting, especially for models showing suspiciously high accuracies. Combine predictions from 
+multiple models to improve overall performance as well and reduce the likelihood of specific model biases.
 
-We can systematically adjust hyperparameters using methods like grid search or random search. More data generally helps improve the model's generalization capability so we could benifit from training on a larger dataset.
+We can systematically adjust hyperparameters using methods like grid search or random search. More data generally helps improve the model's generalization capability so we could 
+benifit from training on a larger dataset.
 """
