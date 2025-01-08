@@ -133,7 +133,7 @@ This project explores portfolio optimization using various investment strategies
   - CPLEX for solving quadratic programming problems.  
   - SciPy and CyIpopt for general optimization tasks.  
 
-[**View Project**](https://github.com/zaibaap/Portfolio/blob/5b9ddeb20ae567941858f16887fa1c978811e877/portf_optimization_w_diff_Inevestment_strats.ipynb)  
+[**View Project**](https://github.com/zaibaap/Portfolio/blob/fb35d588fe46bc573f0820b2b8b869ac32324065/Portfolio_Optimization_Strategies.py)  
 
 ---
 
