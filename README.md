@@ -13,7 +13,7 @@ Welcome to my project portfolio! This repository showcases a collection of my pr
 
 This project focuses on recognizing American Sign Language (ASL) hand gestures for letters A-I using a Convolutional Neural Network (CNN).
 
-## Project Overview
+# Project Overview
 
 1. **Data Preparation**:  
    - Created a custom dataset of ASL hand gestures resized to 224x224 pixels.  
