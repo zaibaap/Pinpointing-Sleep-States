@@ -75,7 +75,10 @@ print(df[df['sentiment'] == 'positive']['review'].head())
 print("\nNegative Reviews:\n")
 print(df[df['sentiment'] == 'negative']['review'].head())
 
-"""The dataset has clear binary labels ('positive' and 'negative'), which is ideal for a binary classification task like sentiment analysis. The reviews provided seem to have a good mix of opinions and styles, which is beneficial for training a model to understand different expressions of sentiments. The reviews contain HTML tags ``` e.g., <br /><br /> ```. These don't provide any meaningful information about the sentiment of the review and will need to be cleaned out of the text. The dataset includes a variety of language uses, from formal to informal and different sentence structures, which is good for training a robust model.
+"""The dataset has clear binary labels ('positive' and 'negative'), which is ideal for a binary classification task like sentiment analysis. The reviews provided seem to 
+have a good mix of opinions and styles, which is beneficial for training a model to understand different expressions of sentiments. The reviews contain HTML tags ``` e.g., 
+<br /><br /> ```. These don't provide any meaningful information about the sentiment of the review and will need to be cleaned out of the text. The dataset includes a variety 
+of language uses, from formal to informal and different sentence structures, which is good for training a robust model.
 
 Understanding context may be difficult in reviews that contain sarcasm or nuances in the language that is used. For instance, reviewer 9 says:
 
@@ -83,11 +86,17 @@ Understanding context may be difficult in reviews that contain sarcasm or nuance
 
 Gut-wrenching is a word usually used to describe something negative however, the sentiment of this review is positive. Another example is:
 
-> "This show was an **amazing**, **fresh** & **innovative** idea in the 70's when it first aired. The first 7 or 8 years were **brilliant**, but things dropped off after that. By 1990, the show was not really funny anymore, and it's continued its decline further to the complete waste of time it is today. It's truly disgraceful how far this show has fallen. The writing is painfully bad, the performances are almost as bad - if not for the mildly **entertaining** respite of the guest-hosts, this show probably wouldn't still be on the air. I find it so hard to believe that the same creator that hand-selected the original cast also chose the band of hacks that followed. How can one recognize such **brilliance** and then see fit to replace it with such mediocrity? I felt I must give 2 stars out of respect for the original cast that made this show such a **huge success**. As it is now, the show is just awful. I can't believe it's still on the air."
+> "This show was an **amazing**, **fresh** & **innovative** idea in the 70's when it first aired. The first 7 or 8 years were **brilliant**, but things dropped off after that. 
+By 1990, the show was not really funny anymore, and it's continued its decline further to the complete waste of time it is today. It's truly disgraceful how far this show has fallen. 
+The writing is painfully bad, the performances are almost as bad - if not for the mildly **entertaining** respite of the guest-hosts, this show probably wouldn't still be on the air. 
+I find it so hard to believe that the same creator that hand-selected the original cast also chose the band of hacks that followed. How can one recognize such **brilliance** and then 
+see fit to replace it with such mediocrity? I felt I must give 2 stars out of respect for the original cast that made this show such a **huge success**. As it is now, the show is just 
+awful. I can't believe it's still on the air."
 
 This review is very clearly negative but the reviewer employs a number of "positive" words (bolded) and yet the sentiment is negative.
 
-Looking at these positive and negative reviwes we also see the huge variance in review length. Deciding on an appropriate sequence length for padding the reviews can be challenging. Too long, and we may introduce too much padding, making the training inefficient; too short, and we could lose important information.
+Looking at these positive and negative reviwes we also see the huge variance in review length. Deciding on an appropriate sequence length for padding the reviews can be challenging. Too long, 
+and we may introduce too much padding, making the training inefficient; too short, and we could lose important information.
 
 ### Part (ii)
 
@@ -168,19 +177,25 @@ for num in range(6900, 13750, 1000):
 
 """**General Observations**
 * The dataset is balanced with an equal number of positive and negative reviews (25,000 each), which reduces the likelihood of bias toward a particular sentiment.
-* The average and median lengths of positive and negative reviews are quite similar. This suggests that, on average, the amount of characters provided by reviewers is pretty mych consistent regardless of sentiment. The histogram illustraits the similarity in the distibution of the data as well.
+* The average and median lengths of positive and negative reviews are quite similar. This suggests that, on average, the amount of characters provided by reviewers 
+is pretty mych consistent regardless of sentiment. The histogram illustraits the similarity in the distibution of the data as well.
 * As the character length increases beyond 6000 characters, there's a clear trend showing a higher proportion of positive reviews. Reviews longer than 9000 characters are exclusively positive.
 
 **Implications:**
-* LSTM and traditional RNN models may struggle with very long sequences due to the vanishing gradient problem, although LSTM models are generally better at handling longer dependencies than vanilla RNNs. The presence of extremely long  could be a challenge in terms of both computational resources and model performance.
+* LSTM and traditional RNN models may struggle with very long sequences due to the vanishing gradient problem, although LSTM models are generally better at handling longer 
+dependencies than vanilla RNNs. The presence of extremely long  could be a challenge in terms of both computational resources and model performance.
 * The trend towards positive sentiment in longer reviews could lead the model to associate longer text with a positive sentiment, which might not always be accurate.
 * As there is a wide range of review lengths, careful preprocessing and tokenization will be necessary.
-* The similarity in average and median lengths for positive and negative reviews is advantageous because it suggests that the model won't be biased towards a particular sentiment based on length alone. However, the increasing skew towards positive reviews in longer texts could potentially bias the model - may need to address this issue by setting a  maximum length.
-* Given the scarcity of very long negative reviews, consider data augmentation techniques for negative reviews to ensure the model learns to handle long negative texts effectively.
+* The similarity in average and median lengths for positive and negative reviews is advantageous because it suggests that the model won't be biased towards a particular 
+sentiment based on length alone. However, the increasing skew towards positive reviews in longer texts could potentially bias the model - may need to address this issue 
+by setting a  maximum length.
+* Given the scarcity of very long negative reviews, consider data augmentation techniques for negative reviews to ensure the model learns to handle long negative texts 
+effectively.
 
 ### Part (iii)
 
-The following helper code will be used to process the data before we can train our LSTM model. Below I will comment on what processing steps are performed in the code provided below and why these steps are necessary or beneficial to training and LSTM.
+The following helper code will be used to process the data before we can train our LSTM model. Below I will comment on what processing steps are performed in the code provided 
+below and why these steps are necessary or beneficial to training and LSTM.
 """
 
 X[0]
@@ -738,7 +753,10 @@ train_rnn_network(model, train_loader, valid_loader, num_epochs=50, learning_rat
 accuracy = get_accuracy(model, valid_loader)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""In the next part, we will tune model 3. While Models 1 and 2 reached higher validation accuracies, due to the gap between the training and validation accuracies, especially in later epochs, they exhibit sinificant overfitting. Model 4 on the other hand exhibited the opposite problem - it had a lower peak in training accuracy compared to the other models which might suggest less overfitting however, it's peak validation accuracy was also lower than the other models. While this model seems to generalize better, it is at the cost of overall performance. Model 3 shows more consistent performance and although there is still some evidence of overfitting, it is less pronounced compared to the other models.
+"""In the next part, we will tune model 3. While Models 1 and 2 reached higher validation accuracies, due to the gap between the training and validation accuracies, especially 
+in later epochs, they exhibit sinificant overfitting. Model 4 on the other hand exhibited the opposite problem - it had a lower peak in training accuracy compared to the other 
+models which might suggest less overfitting however, it's peak validation accuracy was also lower than the other models. While this model seems to generalize better, it is at 
+the cost of overall performance. Model 3 shows more consistent performance and although there is still some evidence of overfitting, it is less pronounced compared to the other models.
 
 ### Part (iii)
 
@@ -746,9 +764,11 @@ Tuning hyperparameters.
 
 1. **Learning Rate**
 
-  This is a crucial hyperparameter for training neural networks. A learning rate that's too high can cause the model to converge too quickly to a suboptimal solution, while a rate that's too low can make the training process unnecessarily long and prone to getting stuck in local minima.
+  This is a crucial hyperparameter for training neural networks. A learning rate that's too high can cause the model to converge too quickly to a suboptimal solution, while a rate 
+  that's too low can make the training process unnecessarily long and prone to getting stuck in local minima.
 
-  Here I decreased the learning rate because when I ran ConcatSentimentRNN above, the model exhibited some overfitting. We want the model to generalize better so the learning rate was decreased from 0.001 to 0.0001
+  Here I decreased the learning rate because when I ran ConcatSentimentRNN above, the model exhibited some overfitting. We want the model to generalize better so the learning rate 
+  was decreased from 0.001 to 0.0001
 """
 
 # TO BE COMPLETED
@@ -774,11 +794,13 @@ train_rnn_network(model, train_loader, valid_loader, num_epochs=50, learning_rat
 accuracy = get_accuracy(model, valid_loader)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""Lower training accuracy compared to the previous setting but a slightly improved validation accuracy. The gap between training and validation accuracy is reduced, indicating better generalization.
+"""Lower training accuracy compared to the previous setting but a slightly improved validation accuracy. The gap between training and validation accuracy is reduced, indicating 
+better generalization.
 
 2. **Batch Size**
 
-  This impacts the model's stochastic gradient descent process. A smaller batch size often provides a regularizing effect and lower generalization error. However, it can make the training process noisier and longer. Conversely, a larger batch size allows for more stable and faster training but can lead to overfitting.
+  This impacts the model's stochastic gradient descent process. A smaller batch size often provides a regularizing effect and lower generalization error. However, it can make the 
+  training process noisier and longer. Conversely, a larger batch size allows for more stable and faster training but can lead to overfitting.
 
   Since we previously saw some overfitting, we will also decrease the batch size to 32.
 """
@@ -805,13 +827,16 @@ train_rnn_network(model, train_loader, valid_loader, num_epochs=50, learning_rat
 accuracy = get_accuracy(model, valid_loader)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""Changing the batch size from 64 to 32 with a lower learning rate showed a slight decrease in validation accuracy. This might be due to the model receiving more frequent updates, which can sometimes lead to overfitting.
+"""Changing the batch size from 64 to 32 with a lower learning rate showed a slight decrease in validation accuracy. This might be due to the model receiving more frequent 
+updates, which can sometimes lead to overfitting.
 
 3. **LSTM Hidden Dimension (hidden_dim)**
 
- The hidden dimension size directly influences the capacity of the LSTM to capture info in the sequence. SInce the dataset has some lengthy reviews, a larger hidden dimension might capture more nuanced information, but it also increases the risk of overfitting and computational cost. We must balance this trade-off.
+ The hidden dimension size directly influences the capacity of the LSTM to capture info in the sequence. SInce the dataset has some lengthy reviews, a larger hidden dimension might 
+ capture more nuanced information, but it also increases the risk of overfitting and computational cost. We must balance this trade-off.
 
-  We will increase this to 128. This is because a higher hidden_dim provides the model with more capacity to learn from the data. Given the complexity of natural language, especially in longer text sequences, a larger hidden dimension can be beneficial.
+  We will increase this to 128. This is because a higher hidden_dim provides the model with more capacity to learn from the data. Given the complexity of natural language, especially 
+  in longer text sequences, a larger hidden dimension can be beneficial.
 
   For now we will do this with the higher batch_size of 64 due to the results of the last previous training, and to avoid excessively long training time.
 """
@@ -838,11 +863,13 @@ train_rnn_network(model, train_loader, valid_loader, num_epochs=50, learning_rat
 accuracy = get_accuracy(model, valid_loader)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""Towards the later epochs, there's a possibility that the model might be overfitting. This can be inferred since the training accuracy continues to increase while the validation accuracy stagnates and then decreases. Overfitting occurs when the model learns patterns specific to the training data, which do not generalize well to unseen data. The increase in the hidden dimension size may have introduced more complexity than necessary, potentially leading to overfitting.
+"""Towards the later epochs, there's a possibility that the model might be overfitting. This can be inferred since the training accuracy continues to increase while the validation 
+accuracy stagnates and then decreases. Overfitting occurs when the model learns patterns specific to the training data, which do not generalize well to unseen data. The increase in the hidden dimension size may have introduced more complexity than necessary, potentially leading to overfitting.
 
 4. **Number of LSTM Layers (n_layers)**
 
-  More layers can increase the model's ability to capture complex patterns (like higher-level semantic meanings), but similar to the hidden dimension, more layers can also lead to overfitting and longer training times.
+  More layers can increase the model's ability to capture complex patterns (like higher-level semantic meanings), but similar to the hidden dimension, more layers can also lead to 
+  overfitting and longer training times.
 
   For now we will try 3 layers. We will set hidden dim back to 64 since the last training loop took a long time to train (19 mins) without a significant increase in validation accuracy.
 """
@@ -869,13 +896,16 @@ train_rnn_network(model, train_loader, valid_loader, num_epochs=50, learning_rat
 accuracy = get_accuracy(model, valid_loader)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""The training accuracy gradually increases over epochs, suggesting that the model is learning effectively from the training dataset. However, the validation accuracy also increases but plateaus and oscillates around certain values, indicating some degree of overfitting.
+"""The training accuracy gradually increases over epochs, suggesting that the model is learning effectively from the training dataset. However, the validation accuracy also increases 
+but plateaus and oscillates around certain values, indicating some degree of overfitting.
 
 5. **Sequence Length for Padding (seq_len)**
 
-  Given the variance in review lengths, this parameter is crucial. Too short a length might truncate valuable information, especially for longer reviews, while too long a length can increase computational load and might introduce more noise from shorter reviews. This needs to be tuned considering the average and median review lengths.
+  Given the variance in review lengths, this parameter is crucial. Too short a length might truncate valuable information, especially for longer reviews, while too long a length can 
+  increase computational load and might introduce more noise from shorter reviews. This needs to be tuned considering the average and median review lengths.
 
-  The average and median review lengths are around 1300 and 970 characters, respectively. The current sequence length of 500 might be truncating too much valuable information. Increasing it to 800-1000 could capture more relevant content from the reviews, especially considering that the longer reviews tend to be more positively biased. For now we will increase to 900.
+  The average and median review lengths are around 1300 and 970 characters, respectively. The current sequence length of 500 might be truncating too much valuable information. Increasing 
+  it to 800-1000 could capture more relevant content from the reviews, especially considering that the longer reviews tend to be more positively biased. For now we will increase to 900.
 """
 
 new_seq_len = 900
@@ -914,11 +944,13 @@ train_rnn_network(model_best, train_loader_new, valid_loader_new, num_epochs=50,
 accuracy = get_accuracy(model_best, valid_loader_new)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""The model demonstrates a steady increase in training and validation accuracy over 50 epochs, which indicates that it is learning effectively from the training data. The model's performance on the validation set is consistent with training performance, suggesting a good balance between learning and generalization. There's no significant overfitting observed.
+"""The model demonstrates a steady increase in training and validation accuracy over 50 epochs, which indicates that it is learning effectively from the training data. The model's 
+performance on the validation set is consistent with training performance, suggesting a good balance between learning and generalization. There's no significant overfitting observed.
 
 6. **Increase Dropout Rate**
   
-   The current dropout rate is 0.5, we will increase it to a higher value of 0.65. A higher dropout rate can help reduce overfitting by randomly turning off a larger portion of neurons during the training process. This forces the network to learn more robust features that are useful in conjunction with many different random subsets of the other neurons.
+   The current dropout rate is 0.5, we will increase it to a higher value of 0.65. A higher dropout rate can help reduce overfitting by randomly turning off a larger portion of neurons 
+   during the training process. This forces the network to learn more robust features that are useful in conjunction with many different random subsets of the other neurons.
 
    Since we saw an increase in performance in the previous training loop, we will use the seq_len of 1000 and we will try to run the training loop with the smaller batch sizes of 32.
 """
@@ -983,7 +1015,8 @@ train_rnn_network(model, train_loader, valid_loader, num_epochs=50, learning_rat
 accuracy = get_accuracy(model, valid_loader)
 print(f'Validation Accuracy: {accuracy:.4f}')
 
-"""When I ran this, there was a significant gap between training and validation accuracy which suggests that the model might be overfitting the training data. While it performs well on the data it has seen, it doesn't generalize as effectively to new, unseen data.
+"""When I ran this, there was a significant gap between training and validation accuracy which suggests that the model might be overfitting the training data. While it performs well 
+on the data it has seen, it doesn't generalize as effectively to new, unseen data.
 
 ## Part 4. Evaluation
 
@@ -1047,7 +1080,8 @@ print(f'Test Accuracy: {test_accuracy:.4f}')
 
 """Train Acc 0.8990, Val Acc 0.8372, Test Accuracy: 0.8380
 
-The test accuracy is very close to the validation accuracy, which is a good sign. The test dataset is used to give an unbiased evaluation of the final model fit. The fact that the test accuracy is close to the validation accuracy suggests that the model generalizes well and is not overfitting significantly to the training data.
+The test accuracy is very close to the validation accuracy, which is a good sign. The test dataset is used to give an unbiased evaluation of the final model fit. The fact that the test 
+accuracy is close to the validation accuracy suggests that the model generalizes well and is not overfitting significantly to the training data.
 
 ### Part (ii)
 
@@ -1093,16 +1127,21 @@ positive_df
 
 """**Positive Reviews Misclassified as Negative**
 
-* Reviews that contain subtle positive sentiments or sarcasm can be challenging for models to classify correctly. For instance, the first review praises a show using a somewhat sarcastic tone, which might be misinterpreted as negative by the model.
+* Reviews that contain subtle positive sentiments or sarcasm can be challenging for models to classify correctly. For instance, the first review praises a show using a 
+somewhat sarcastic tone, which might be misinterpreted as negative by the model.
 > "The entire civilized world by now knows.."
 
-* Reviews that contain a mix of positive and negative sentiments can confuse the model. The second review, for example, starts by criticizing the film's premise but then acknowledges its enjoyable aspects. This mix might lead to misclassification.
+* Reviews that contain a mix of positive and negative sentiments can confuse the model. The second review, for example, starts by criticizing the film's premise but then 
+acknowledges its enjoyable aspects. This mix might lead to misclassification.
 > "While the premise of the film is pretty lame"
 
 
- * Some reviews express sentiments in complex ways, such as through detailed descriptions or references to specific aspects of a movie or show. These nuances might be missed by the model, leading to incorrect classification.
+ * Some reviews express sentiments in complex ways, such as through detailed descriptions or references to specific aspects of a movie or show. These nuances might be 
+ missed by the model, leading to incorrect classification.
 
-* Reviews that require a deep understanding of the context or background (like specific knowledge about a film series or a genre) may not be accurately assessed by the model. SImilarily reviews with specific references to characters, scenes, or industry jargon could be challenging for the model. The fourth and fifth reviews include specific references that might not be recognized as positive.
+* Reviews that require a deep understanding of the context or background (like specific knowledge about a film series or a genre) may not be accurately assessed by the 
+model. SImilarily reviews with specific references to characters, scenes, or industry jargon could be challenging for the model. The fourth and fifth reviews include specific 
+references that might not be recognized as positive.
 >"At least for a half hour a week. I haven't been interested in anything on the big 3 networks (ABC/CBS/NBC) in years."
 """
 
@@ -1112,16 +1151,21 @@ print("\nNegative Misclassified Examples:")
 negative_df
 
 """**Negative Reviews Misclassified as Positive**
-* Some reviews may express criticism indirectly or in a less straightforward manner. For instance, the first review, while primarily negative, starts by mentioning some positives, which might mislead the model.
+* Some reviews may express criticism indirectly or in a less straightforward manner. For instance, the first review, while primarily negative, starts by mentioning some 
+positives, which might mislead the model.
 > "I'm glad I rented this movie for one reason... "
 
-* Reviews that use irony or sarcasm to convey negative sentiments can be difficult for models to interpret correctly. The second review, for example, uses a sarcastic tone to criticize the movie.
+* Reviews that use irony or sarcasm to convey negative sentiments can be difficult for models to interpret correctly. The second review, for example, uses a sarcastic tone 
+to criticize the movie.
 > "...And you'd be right..."
 
-* Reviews that go into detail about why a movie is bad, but without using overtly negative language, can be misclassified. The third review, for example, criticizes the movie but in a kind of subdued manner.
-> "This movie is pretty predictable nuff said....from the delayed kissing scene to the inevitable coming around of grandpa...this is a great movie for the 10-12 age group but beyond that..."
+* Reviews that go into detail about why a movie is bad, but without using overtly negative language, can be misclassified. The third review, for example, criticizes the 
+movie but in a kind of subdued manner.
+> "This movie is pretty predictable nuff said....from the delayed kissing scene to the inevitable coming around of grandpa...this is a great movie for the 10-12 age group 
+but beyond that..."
 
-*  Negative reviews that are rich in narrative or descriptive language might be misinterpreted by the model. Some negative reviews also might focus more on analysis than direct critique. This analytical approach can mask a negative tone. For example, the final review focuses on anaysing the film in the context of the director's previous work.
+*  Negative reviews that are rich in narrative or descriptive language might be misinterpreted by the model. Some negative reviews also might focus more on analysis than 
+direct critique. This analytical approach can mask a negative tone. For example, the final review focuses on anaysing the film in the context of the director's previous work.
 > "Is this the same Kim Ki Duk who directed the poignant, life-spanning testimonial of "Spring, Summer, Fall, Winter and Spring"? "
 
 ### Part (iii)
@@ -1179,24 +1223,34 @@ or any other strategy that is easy to build and test.
 **Do not actually build a baseline model. Instead, provide instructions on
 how to build it.**
 
-Detecting positive and negative reviews can be a difficult task. The difficulty depends on several factors, including the complexity of language used in reviews, the presence of sarcasm or subtle sentiments, and the diversity of topics and expressions in the dataset. It is a challenging task due to nuances in human language and the potential variability in how sentiments are expressed.
+Detecting positive and negative reviews can be a difficult task. The difficulty depends on several factors, including the complexity of language used in reviews, the presence 
+of sarcasm or subtle sentiments, and the diversity of topics and expressions in the dataset. It is a challenging task due to nuances in human language and the potential variability 
+in how sentiments are expressed.
 
-For a baseline model to compare with a more complex recurrent neural network (RNN) model, the key is to create something simpler and less resource-intensive to serve as a reference point to understand whether the additional complexity and cost of the RNN are justified.
+For a baseline model to compare with a more complex recurrent neural network (RNN) model, the key is to create something simpler and less resource-intensive to serve as a reference 
+point to understand whether the additional complexity and cost of the RNN are justified.
 
 **Suggestion 1 - Rule-based Sentiment Analysis:**
 
-We can develop a set of rules to classify reviews as positive or negative based on the presence of certain keywords. For instance, words like "excellent" and "amazing" could be indicators of a positive review, whereas "poor" and "terrible" might indicate negative sentiment.To do this, we need to create a dictionary of positive and negative words. For each review, we count the number of words that fall into each category and then we classify the review based on which type of word is more frequent. The main limitation of this approach is that it might miss nuances and context. For instance, it wouldn't handle negations ("not good") or sarcasm effectively.
+We can develop a set of rules to classify reviews as positive or negative based on the presence of certain keywords. For instance, words like "excellent" and "amazing" could be 
+indicators of a positive review, whereas "poor" and "terrible" might indicate negative sentiment.To do this, we need to create a dictionary of positive and negative words. For each 
+review, we count the number of words that fall into each category and then we classify the review based on which type of word is more frequent. The main limitation of this approach 
+is that it might miss nuances and context. For instance, it wouldn't handle negations ("not good") or sarcasm effectively.
 
 
 
 **SUggestion 2 - Simple Neural Network:**
 
-A basic feedforward neural network with one or two hidden layers. We can represent reviews by transforming text data into numerical form using word embeddings like GloVe. We can preprocess the reviews similar to what we have done above.
+A basic feedforward neural network with one or two hidden layers. We can represent reviews by transforming text data into numerical form using word embeddings like GloVe. We can 
+preprocess the reviews similar to what we have done above.
 
-The input layer size will depend on the data representation. I.e., if we're using fixed-length word embedding vectors, the input size will be the length of these vectors. We can start with one or fully connected layers. The number of neurons in these layers can be tuned ofcourse - more neurons will capture complex patterns but also increase the risk of overfitting.
+The input layer size will depend on the data representation. I.e., if we're using fixed-length word embedding vectors, the input size will be the length of these vectors. We can 
+start with one or fully connected layers. The number of neurons in these layers can be tuned ofcourse - more neurons will capture complex patterns but also increase the risk of 
+overfitting.
 
 
-We can use 'ReLU' (Rectified Linear Unit) for hidden layers to help with the vanishing gradient problem and speeds up training. Since this is a binary classification problem (positive or negative sentiment), the output layer will have a single neuron with a 'sigmoid' activation function to output a probability.
+We can use 'ReLU' (Rectified Linear Unit) for hidden layers to help with the vanishing gradient problem and speeds up training. Since this is a binary classification problem 
+(positive or negative sentiment), the output layer will have a single neuron with a 'sigmoid' activation function to output a probability.
 
 For the loss function we can use 'binary crossentropy' since it is suitable for binary classification problems. FOr optimizer we can use Adam.
 
@@ -1249,13 +1303,16 @@ print(hidden_size)
 print(hidden_states.shape)
 print(pooled_output.shape)
 
-"""In the sample code provided we loaded a short text sequence, tokenized it using the same tokenization that was used in the pretrained BERT model, and fed the tokenized input into the BERT model to obtain the embeddings.
+"""In the sample code provided we loaded a short text sequence, tokenized it using the same tokenization that was used in the pretrained BERT model, and fed the tokenized 
+input into the BERT model to obtain the embeddings.
 
 The model output consists of two forms of embeddings:
 - **hidden_states** are the final layer of outputs that has a shape sequence_length x embeddings, much like the hidden states of a recurrent neural network
-- **pooled_output** is the result of applying max pooling on the hidden states to effectively collapse the sequence dimenension and ensure the same output size for any given sequence before feeding into the classification stage
+- **pooled_output** is the result of applying max pooling on the hidden states to effectively collapse the sequence dimenension and ensure the same output size for any 
+given sequence before feeding into the classification stage
 
-Note that you can preprocess all of the data prior to training a classifier stage for sentiment analysis to help speed up the training process. This is no different from the process we applied in an earlier assignment using AlexNet and image data.
+Note that you can preprocess all of the data prior to training a classifier stage for sentiment analysis to help speed up the training process. This is no different from 
+the process we applied in an earlier assignment using AlexNet and image data.
 
 ## Part 1. Data Loading
 
@@ -1358,27 +1415,36 @@ print(single_sample)
 
 """**review_text** is the actual text of the movie review. This is the raw data that we will process.
 
-**input_ids** are the token IDs obtained after tokenizing the review_text using the BERT tokenizer. Each word or subword in the review_text is converted into a unique integer ID that corresponds to BERT's vocabulary. These IDs are used by the BERT model to understand and process the text.
+**input_ids** are the token IDs obtained after tokenizing the review_text using the BERT tokenizer. Each word or subword in the review_text is converted into a unique 
+integer ID that corresponds to BERT's vocabulary. These IDs are used by the BERT model to understand and process the text.
 
-**attention_mask** is a sequence of 1s and 0s with the same length as input_ids. It indicates to the model which tokens should be attended to, and which should not. In the sample we loaded, all the values are 1, meaning all tokens are important and should be considered by the model. This mask is especially important for handling padding in sequences of different lengths.
+**attention_mask** is a sequence of 1s and 0s with the same length as input_ids. It indicates to the model which tokens should be attended to, and which should not. In 
+the sample we loaded, all the values are 1, meaning all tokens are important and should be considered by the model. This mask is especially important for handling padding 
+in sequences of different lengths.
 
 **targets** represents the label for the sentiment of the review. In the sample
- we see it is a tensor with a single value (0 or 1), indicating the sentiment class (negative or positive, respectively). This is what the model will predict, and it's used during training to compute the loss and update the model weights.
+ we see it is a tensor with a single value (0 or 1), indicating the sentiment class (negative or positive, respectively). This is what the model will predict, and it's 
+ used during training to compute the loss and update the model weights.
 
 How attributes are used for training model with BERT:
 
 * input_ids and attention_mask - contextual embeddings of the text.
-* targets - used as the ground truth for training. Model learns to predict the sentiment of the review by minimizing difference b/n its predictions and these target labels.
-* review_text - used for qualitative analysis, i.e., understanding what kinds of reviews are being classified correctly or incorrectly - it is NOT directly used in the model training process when using BERT.
+* targets - used as the ground truth for training. Model learns to predict the sentiment of the review by minimizing difference b/n its predictions and these target 
+labels.
+* review_text - used for qualitative analysis, i.e., understanding what kinds of reviews are being classified correctly or incorrectly - it is NOT directly used in 
+the model training process when using BERT.
 
 ### Part (iii)
 
-The "bert-base-cased" model uses WordPiece tokenization which breaks words into subword units - word pieces (i.e.,the word "playing" might be broken into "play" and "##ing"). BERT also uses special tokens like [CLS], [SEP], and [PAD].
+The "bert-base-cased" model uses WordPiece tokenization which breaks words into subword units - word pieces (i.e.,the word "playing" might be broken into "play" and 
+"##ing"). BERT also uses special tokens like [CLS], [SEP], and [PAD].
 * [CLS] is added at the beginning of each sequence,
 * [SEP] is used to separate different sequences
 * [PAD] is used for padding shorter sequences to a fixed length.
 
-Each token (word or subword) in BERT's vocabulary is assigned a unique integer ID. These IDs are seen in the tokenized outputs. The range of token values is determined by the size of the BERT model's vocabulary. For "bert-base-cased" the vocab size is 28996. The exact size of the vocabulary is found by checking the tokenizer's vocabulary - this gives us the range of token IDs we can expect in the tokenized data.
+Each token (word or subword) in BERT's vocabulary is assigned a unique integer ID. These IDs are seen in the tokenized outputs. The range of token values is determined 
+by the size of the BERT model's vocabulary. For "bert-base-cased" the vocab size is 28996. The exact size of the vocabulary is found by checking the tokenizer's vocabulary 
+- this gives us the range of token IDs we can expect in the tokenized data.
 """
 
 from transformers import BertTokenizer
@@ -1394,7 +1460,8 @@ print("Range of Token Values: 0 to", vocab_size - 1)
 
 """### Part (iv)
 
-Generate histograms of all the token values in the training data. Repeat for the validation and test data. What are the top 5 occuring tokens in the training_dataset? What do these tokens represent?
+Generate histograms of all the token values in the training data. Repeat for the validation and test data. What are the top 5 occuring tokens in the training_dataset? 
+What do these tokens represent?
 """
 
 import torch
@@ -1460,7 +1527,10 @@ def find_top_tokens(token_freqs, tokenizer, n=5):
 top_5_train_tokens = find_top_tokens(train_token_freqs, tokenizer)
 print("Top 5 Tokens in Training Data:", top_5_train_tokens)
 
-"""[PAD]: This is a special token for padding shorter sentences to a uniform length.It's the most frequent token bc the tokenizer adds this token to every sentence or sequence that is shorter than our specified maximum length (MAX_LEN). The high frequency (5,717,669 occurrences) indicates that a significant portion of the data consists of sequences shorter than the maximum length and need padding. Since pad occurs so frequently, it is hard to visualize the occurance of the other tokens in the dataset. As such I have plotted all the hstograms again without pad to gain a better understanding of the other tokens.
+"""[PAD]: This is a special token for padding shorter sentences to a uniform length.It's the most frequent token bc the tokenizer adds this token to every sentence or 
+sequence that is shorter than our specified maximum length (MAX_LEN). The high frequency (5,717,669 occurrences) indicates that a significant portion of the data consists 
+of sequences shorter than the maximum length and need padding. Since pad occurs so frequently, it is hard to visualize the occurance of the other tokens in the dataset. As 
+such I have plotted all the hstograms again without pad to gain a better understanding of the other tokens.
 
 . (Period): Punctuation denoting the end of a sentence. Its high frequency (424,392 occurrences) reflects the prevalence of complete sentences in the dataset.
 
@@ -1497,9 +1567,11 @@ print("Pooled Output Shape:", pooled_output.shape)
 
   The first Dimension (1) represents the batch size. Here it's 1 because we're processing a single sample. This number would correspond to the number of samples in the batch.
 
-  The second Dimension (400) is the sequence length of the input text after tokenization - it represents the number of tokens (including special tokens) in the processed text. We specifiec MAX_LEN to be 400 when we prepared the DataLoader. This means each input sequence is either truncated or padded to have exactly 400 tokens.
+  The second Dimension (400) is the sequence length of the input text after tokenization - it represents the number of tokens (including special tokens) in the processed text. 
+  We specifiec MAX_LEN to be 400 when we prepared the DataLoader. This means each input sequence is either truncated or padded to have exactly 400 tokens.
 
-  The third Dimension (768) represents the size of the hidden layers in the BERT model. In the case of bert-base-cased, the model has hidden layers of size 768. This is a feature of the model's architechture.
+  The third Dimension (768) represents the size of the hidden layers in the BERT model. In the case of bert-base-cased, the model has hidden layers of size 768. This is a feature 
+  of the model's architechture.
 
 2. **Pooled Output ([1, 768])**
 
@@ -1507,7 +1579,8 @@ print("Pooled Output Shape:", pooled_output.shape)
 
   The second Dimension (768) represents the pooled embedding size, which is the same as the hidden layer size of the BERT model.
 
-  (The pooled output derived from the hidden state of the [CLS] token (i.e., first token) after passing through additional pooling layers (like a fully connected layer with tanh activation in the original BERT model). This pooled output is often used for classification tasks, bc it provides a fixed-size vector summarizing the entire input sequence)
+  (The pooled output derived from the hidden state of the [CLS] token (i.e., first token) after passing through additional pooling layers (like a fully connected layer with tanh 
+  activation in the original BERT model). This pooled output is often used for classification tasks, bc it provides a fixed-size vector summarizing the entire input sequence)
 
 ## Part 2. Model Architecture
 
@@ -1724,33 +1797,43 @@ train_model(model, train_loader, valid_loader, num_epochs=50, learning_rate=1e-5
 
 1. **Learning Rate**
     
-    This is a crucial hyperparameter to train as it controls the step size at each iteration while moving toward a minimum of the loss function. If set too high, the training might not converge; if too low, training can be slow or get stuck in a local minimum.
+    This is a crucial hyperparameter to train as it controls the step size at each iteration while moving toward a minimum of the loss function. If set too high, the training might 
+    not converge; if too low, training can be slow or get stuck in a local minimum.
 
-    In the previous training, the model is showing steady improvement in accuracy over epochs, but the increments are small. This could indicate that the learning rate might be slightly lower than optimal. We will test by increasing the learning rate to 2e-5. A higher learning rate could help the model to converge faster, we also need to be cautious to not set it too high as it might overshoot the minimum loss.
+    In the previous training, the model is showing steady improvement in accuracy over epochs, but the increments are small. This could indicate that the learning rate might be slightly 
+    lower than optimal. We will test by increasing the learning rate to 2e-5. A higher learning rate could help the model to converge faster, we also need to be cautious to not set it too 
+    high as it might overshoot the minimum loss.
 """
 
 print("Training SentimentClassifierLast model")
 train_model(model, train_loader, valid_loader, num_epochs=50, learning_rate=2e-5)
 
-"""There was a noticeable improvement in both training and validation accuracies. This suggests that the initial learning rate might have been too conservative, and the model benefited from a slightly more aggressive learning rate.
+"""There was a noticeable improvement in both training and validation accuracies. This suggests that the initial learning rate might have been too conservative, and the model benefited 
+from a slightly more aggressive learning rate.
 
 2. **Number of Epochs**
 
-  Related to the optimizer, but it’s an important hyperparameter to tune since it is also about the number of times the model will see the entire dataset. A higher number of epochs can lead to better training, but also to overfitting. On the other hand too few epochs might mean underfitting.
+  Related to the optimizer, but it’s an important hyperparameter to tune since it is also about the number of times the model will see the entire dataset. A higher number of epochs can 
+  lead to better training, but also to overfitting. On the other hand too few epochs might mean underfitting.
 
-  In the previous training instances the model's accuracy is gradually increasing even at the 50th epoch, which suggests that it hasn't fully converged yet. We will increase the number of epochs to 70 and watch out for watch out for signs of overfitting, (i.e, the validation accuracy plateauing or decreasing). We will use the learning rate of 2e-5
+  In the previous training instances the model's accuracy is gradually increasing even at the 50th epoch, which suggests that it hasn't fully converged yet. We will increase the number of 
+  epochs to 70 and watch out for watch out for signs of overfitting, (i.e, the validation accuracy plateauing or decreasing). We will use the learning rate of 2e-5
 """
 
 print("Training SentimentClassifierLast model")
 train_model(model, train_loader, valid_loader, num_epochs=70, learning_rate=2e-5)
 
-"""There is a consistent but gradual improvement in both training and validation accuracy over the extended epochs. This indicates that the model continues to learn and adapt even beyond the initial 50 epochs, however, at a slower pace.Training for such a high number of epochs may not be the most efficient use of resources, especially if similar performance can be achieved with fewer epochs and optimized hyperparameters.
+"""There is a consistent but gradual improvement in both training and validation accuracy over the extended epochs. This indicates that the model continues to learn and adapt even beyond 
+the initial 50 epochs, however, at a slower pace.Training for such a high number of epochs may not be the most efficient use of resources, especially if similar performance can be achieved 
+with fewer epochs and optimized hyperparameters.
 
 3. **Dropout Rate**
 
-  This is a technique used to prevent overfitting. The dropout rate (p in nn.Dropout(p)) is the probability of an element to be zeroed. Adjusting this can help in reducing overfitting (if the model is too complex) or underfitting (if the model is too simple).
+  This is a technique used to prevent overfitting. The dropout rate (p in nn.Dropout(p)) is the probability of an element to be zeroed. Adjusting this can help in reducing overfitting (if 
+  the model is too complex) or underfitting (if the model is too simple).
 
-  The dropout rate we've used previously is 0.3. Given that the model is improving consistently and doesn't show signs of overfitting, we will experiment with slightly reducing the dropout rate to 0.25. This allows more information to flow through the network - might be beneficial since there's no current indication of overfitting.
+  The dropout rate we've used previously is 0.3. Given that the model is improving consistently and doesn't show signs of overfitting, we will experiment with slightly reducing the dropout 
+  rate to 0.25. This allows more information to flow through the network - might be beneficial since there's no current indication of overfitting.
 """
 
 class LowDropSentimentClassifierLast(nn.Module):
@@ -1769,11 +1852,14 @@ model = LowDropSentimentClassifierLast(n_classes=2, embedding_dim=768).to(device
 print("Training SentimentClassifierLast model")
 train_model(model, train_loader, valid_loader, num_epochs=50, learning_rate=1e-5)
 
-"""The lower dropout rate seems to allow the model to fit the training data slightly better, as indicated by the gradual but consistent improvement in training accuracy. However, it does not lead to overfitting, as the validation accuracy also improves.
+"""The lower dropout rate seems to allow the model to fit the training data slightly better, as indicated by the gradual but consistent improvement in training accuracy. However, it does not 
+lead to overfitting, as the validation accuracy also improves.
 
 4. **Batch Size**
 
-  The number of samples processed before the model is updated. A larger batch size provides a more accurate estimate of the gradient, but requires more memory and can make training slower. A smaller batch size can speed up training but might lead to more noise in the gradient estimation. Previously our batch size was set to 16. HEre we will try a batch size of 32. We will continue to use the lower dropout of 0.25.
+  The number of samples processed before the model is updated. A larger batch size provides a more accurate estimate of the gradient, but requires more memory and can make training slower. A 
+  smaller batch size can speed up training but might lead to more noise in the gradient estimation. Previously our batch size was set to 16. HEre we will try a batch size of 32. We will continue 
+  to use the lower dropout of 0.25.
 """
 
 BATCH_SIZE = 32
@@ -1785,7 +1871,8 @@ model = LowDropSentimentClassifierLast(n_classes=2, embedding_dim=768).to(device
 print("Training SentimentClassifierLast model")
 train_model(model, new_train_loader, new_valid_loader, num_epochs=50, learning_rate=1e-5)
 
-"""Larger batch sizes can sometimes lead to poorer generalization. However, in this case, the final validation accuracy doesn't show a significant drop compared to training with smaller batch sizes, indicating that the model still generalizes well.
+"""Larger batch sizes can sometimes lead to poorer generalization. However, in this case, the final validation accuracy doesn't show a significant drop compared to training with smaller batch 
+sizes, indicating that the model still generalizes well.
 
 Below we will train a model with the folowing hyperparameters:
 * Learning Rate: 2e-5
@@ -1874,14 +1961,18 @@ accuracy_summary = pd.DataFrame({
 accuracy_summary
 
 """**ANSWER:**
-The LSTM model shows a higher training accuracy compared to the BERT model. This could indicate that the LSTM model, with its architecture and hyperparameters, was better able to fit the training data.The LSTM model also outperforms the BERT model on the validation set. This suggests that the LSTM model generalizes better to unseen data compared to the BERT model.
-The trend continues with the test accuracy, where the LSTM model demonstrates higher accuracy. This further supports the notion that the LSTM model has better generalization capabilities for this particular problem.
+The LSTM model shows a higher training accuracy compared to the BERT model. This could indicate that the LSTM model, with its architecture and hyperparameters, was better able to fit the 
+training data.The LSTM model also outperforms the BERT model on the validation set. This suggests that the LSTM model generalizes better to unseen data compared to the BERT model.
+The trend continues with the test accuracy, where the LSTM model demonstrates higher accuracy. This further supports the notion that the LSTM model has better generalization capabilities 
+for this particular problem.
 
-Typically, BERT is known for its strong performance on a wide range of NLP tasks, especially those involving understanding the context and nuances of language. Bert's lower test accuracy is not expected however, as we saw above tuning and model architechture could make a big difference. Perhaps with further tuning, the bERT accuracy may surpass that of the LSTM only model.
+Typically, BERT is known for its strong performance on a wide range of NLP tasks, especially those involving understanding the context and nuances of language. Bert's lower test accuracy is 
+not expected however, as we saw above tuning and model architechture could make a big difference. Perhaps with further tuning, the bERT accuracy may surpass that of the LSTM only model.
 
 ### Part (ii)
 
-Report the false positive rate and false negative rate of your model across the test set. Then summarize in a pandas dataframe the false postive and false negative rate of your model obtained on the training, validation, and test data of your best models from Part A and B.
+Report the false positive rate and false negative rate of your model across the test set. Then summarize in a pandas dataframe the false postive and false negative rate of your model 
+obtained on the training, validation, and test data of your best models from Part A and B.
 
 How does the BERT model compare to the approach in part A using only LSTM? Are the results what you expected? Explain.
 
@@ -1968,9 +2059,11 @@ print(rates_df)
 df_combined = pd.concat([df_rates, b_df_rates], ignore_index=True)
 
 """### Part (iii) [3pt DISCUSSION]
-Examine some of the misclassified reviews from you best BERT and LSTM models to better identify the differences in the models. Try to provide some justification for any differences in the misclassifications observed in the models.
+Examine some of the misclassified reviews from you best BERT and LSTM models to better identify the differences in the models. Try to provide some justification for any differences 
+in the misclassifications observed in the models.
 
-Is there any part of the review that you could modify to make the classifications correct? Try to make small changes to the review to see if you can make the model make the correct classification while keeping the review as close to the original as possible.
+Is there any part of the review that you could modify to make the classifications correct? Try to make small changes to the review to see if you can make the model make the correct 
+classification while keeping the review as close to the original as possible.
 
 **Part A**
 """
