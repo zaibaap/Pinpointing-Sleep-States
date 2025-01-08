@@ -77,7 +77,8 @@ This project focuses on solving the Cart-Pole control problem using reinforcemen
 - **NumPy**: Numerical computation and array manipulation.  
 - **Matplotlib**: Visualization of agent performance.  
 
-[**View Project**](https://github.com/zaibaap/Portfolio/blob/5b9ddeb20ae567941858f16887fa1c978811e877/Cartpole_Control_Problem_Reinforcement_Learning.ipynb)  
+[**View Project (.ipynb file)**](https://github.com/zaibaap/Portfolio/blob/5b9ddeb20ae567941858f16887fa1c978811e877/Cartpole_Control_Problem_Reinforcement_Learning.ipynb)
+[**View .py File**](https://github.com/zaibaap/Portfolio/blob/a4058c143567884ecd91750d0f6940d44cbde438/Cartpole_Control_Problem_RL.py)
 
 ---
 
