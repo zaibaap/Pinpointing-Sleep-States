@@ -13,8 +13,7 @@ Welcome to my project portfolio! This repository showcases a collection of my pr
 
 This project focuses on recognizing American Sign Language (ASL) hand gestures for letters A-I using a Convolutional Neural Network (CNN).
 
-# Project Overview
-
+### Project Overview
 1. **Data Preparation**:  
    - Created a custom dataset of ASL hand gestures resized to 224x224 pixels.  
    - Split the dataset into training, validation, and test sets, ensuring the test set included unseen participants to maintain model integrity.
@@ -35,7 +34,7 @@ This project focuses on recognizing American Sign Language (ASL) hand gestures f
    - Integrated **AlexNet** as a pretrained feature extractor.  
    - Designed a custom classifier trained on the extracted features to predict ASL gestures.  
 
-## Technologies Used
+### Technologies Used
 - **PyTorch**: Model building and training.  
 - **Torchvision**: Data augmentation and transfer learning.  
 - **Google Colab**: Training environment and experimentation.
@@ -45,7 +44,7 @@ This project focuses on recognizing American Sign Language (ASL) hand gestures f
 ### 2. **Cart-Pole Control Problem Using Reinforcement Learning**
    This project focuses on solving the Cart-Pole control problem using reinforcement learning techniques. The Cart-Pole environment is a classic benchmark problem for control algorithms. The goal is to balance a pole on a moving cart by applying forces to the cart.
 
-   #### Project Overview:
+#### Project Overview:
    - **Environment**: Used the OpenAI Gym's `CartPole-v1` environment.
    - **Algorithms**:
      - **SARSA (On-Policy TD Control)**: Utilized SARSA to learn a policy by balancing exploration and exploitation.
@@ -54,22 +53,22 @@ This project focuses on recognizing American Sign Language (ASL) hand gestures f
    - **State Representation**: Discretized the continuous state space into bins for efficient Q-table updates.
    - **Performance**: Demonstrated improvements in total rewards across algorithms, comparing their efficacy in solving the task.
 
-   #### Technologies Used:
-   - **Python**: Core programming language.
-   - **OpenAI Gym**: Environment for simulation and testing.
-   - **NumPy**: Numerical computation and array manipulation.
-   - **Matplotlib**: Visualization of agent performance.
+### Technologies Used:
+- **Python**: Core programming language.
+- **OpenAI Gym**: Environment for simulation and testing.
+- **NumPy**: Numerical computation and array manipulation.
+- **Matplotlib**: Visualization of agent performance.
 
 - [View Project](https://github.com/zaibaap/Portfolio/blob/5b9ddeb20ae567941858f16887fa1c978811e877/Cartpole_Control_Problem_Reinforcement_Learning.ipynb)
 
 ### 3. Sentiment Analysis Models - Movie Reviews
-- **Description**: 
-- **Technologies**: Python, Scikit-learn, Matplotlib.
+- **Project Overview**: 
+- **Technologies Used**: Python, Scikit-learn, Matplotlib.
 - [View Project](https://github.com/zaibaap/Portfolio/blob/5b9ddeb20ae567941858f16887fa1c978811e877/Sentiment_Analysis_Movie_Reviews_.py)
 
-### 4. Portfolio OPtimization for Different Investment Strategies
-- **Description**: 
-- **Technologies**: Python, Scikit-learn, Matplotlib.
+### 4. Portfolio Optimization for Different Investment Strategies
+- **Project Overview**: 
+- **Technologies USed**: Python, Scikit-learn, Matplotlib.
 - [View Project](https://github.com/zaibaap/Portfolio/blob/5b9ddeb20ae567941858f16887fa1c978811e877/portf_optimization_w_diff_Inevestment_strats.ipynb)
 
 ## Contact
