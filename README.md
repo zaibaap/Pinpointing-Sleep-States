@@ -61,7 +61,7 @@ This project focuses on recognizing American Sign Language (ASL) hand gestures f
 ### 2. Cart-Pole Control Problem Using Reinforcement Learning  
 
 #### Project Overview  
-This project focuses on solving the Cart-Pole control problem using reinforcement learning techniques. The Cart-Pole environment is a classic benchmark problem for control algorithms. The goal is to balance a pole on a moving cart by applying forces to the cart.  
+This project focuses on solving the Cart-Pole control problem using reinforcement learning techniques. The Cart-Pole environment is a classic benchmark problem for control algorithms. The goal is to balance a pole on a moving cart by applying forces to the cart. For this project I have uploaded an .ipynb file to show how the cartpole environment should look. I have also uploaded a .py file.  
 
 - **Environment**: Used the OpenAI Gym's `CartPole-v1` environment.  
 - **Algorithms**:  
